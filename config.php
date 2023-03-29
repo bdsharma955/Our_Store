@@ -14,3 +14,11 @@ catch(PDOException $e){
 }
 
 require_once('fucntion.php');
+
+
+function APP_URL(){
+    echo "http://localhost/Our_Store";
+}
+function GET_APP_URL(){
+    return "http://localhost/Our_Store";
+}

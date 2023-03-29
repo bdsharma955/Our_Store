@@ -1,6 +1,7 @@
 
 <?php 
 require_once('config.php');
+session_start();
 
 if(isset($_POST['register_form'])){
     $name = $_POST['name'];
@@ -67,6 +68,14 @@ if(isset($_POST['register_form'])){
 
         if($insert == true){
             $success ="User Registration Success!";
+
+            $message = "Your Verification Code is: ".$email_code;
+            mail($email,"Email Verification",$message);
+
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_mobile'] = $mobile;
+
+            header('location:verification.php');
         }
         else{
             $error = "Registration Failed!";

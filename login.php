@@ -27,6 +27,17 @@ if(isset($_POST['login_form'])){
                 header('location:index.php');
             }
             else{
+                $_SESSION['user_email'] = $userData['email'];
+                $_SESSION['user_mobile'] = $userData['mobile'];
+                
+                $email_code = rand(111111,999999);
+                $stm = $connection->prepare("UPDATE users SET email_code=? WHERE email=?");
+                $stm->execute(array($email_code,$userData['email']));
+                
+                $message = "Your Verification Code is: ".$email_code;
+                mail($userData['email'],"Email Verification",$message);
+
+                
                 header('location:verification.php');
             }
         }
@@ -37,7 +48,7 @@ if(isset($_POST['login_form'])){
 }
 
 if(isset($_SESSION['user'])){
-    header('location:index.php');
+    header('location:dashboard/index.php');
 }
 
 ?>
@@ -86,16 +97,16 @@ if(isset($_SESSION['user'])){
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5">
                                 <a class="text-center" href="index.php"> <h2>Login</h2></a>
-                                <?php if(isset($error)) : ?>
-                                 <div class="alert alert-danger">
-                                  <?php echo $error; ?>
-                                 </div>    
-                                <?php endif; ?>
-                                <?php if(isset($success)) : ?>
-                                 <div class="alert alert-success">
-                                  <?php echo $success; ?>
-                                 </div>    
-                                <?php endif; ?>
+                                    <?php if(isset($error)) : ?>
+                                    <div class="alert alert-danger">
+                                    <?php echo $error; ?>
+                                    </div>    
+                                    <?php endif; ?>
+                                    <?php if(isset($success)) : ?>
+                                    <div class="alert alert-success">
+                                    <?php echo $success; ?>
+                                    </div>    
+                                    <?php endif; ?>
                                 <form action="" method="POST" class="mt-5 mb-5 login-input">
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control" placeholder="Username">

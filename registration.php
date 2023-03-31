@@ -64,7 +64,7 @@ if(isset($_POST['register_form'])){
         $email = strtolower($email);
 
         $insert = $connection->prepare("INSERT INTO users(name,username,email,mobile,business_name,address,password,gender,date_of_birth,status,email_code,mobile_code,create_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $insert->execute(array($name,$username,$email,$mobile,$business_name,$address ,$password,$gender,$date_of_birth,"Pending",$email_code,$mobile_code,$create_at));
+        $insert->execute(array($name,$username,$email,$mobile,$business_name,$address ,$password,$gender,$date_of_birth,"Active",$email_code,$mobile_code,$create_at));
 
         if($insert == true){
             $success ="User Registration Success!";
@@ -178,7 +178,7 @@ function all_value($biplob){
                                     </div>
                                     <button type="submit" name="register_form" class="btn login-form__btn submit w-100">Registration</button>
                                 </form>
-                                    <p class="mt-3 login-form__footer">Have account <a href="login.php" class="text-primary">Login</a> now</p>
+                                    <p class="mt-3 login-form__footer">Have account <a href="<?php APP_URL(); ?>/login.php" class="text-primary">Login</a> now</p>
                                 </div>
                             </div>
                         </div>

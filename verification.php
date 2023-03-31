@@ -1,8 +1,7 @@
 <?php 
     require_once('config.php');
     session_start();
-    // unset($_SESSION['email_verify']);
-    // unset($_SESSION['mobile_verify']);
+    
 
     if(!isset($_SESSION['user_email']) AND !isset($_SESSION['user_mobile'])){
         header('location:login.php');
@@ -157,7 +156,7 @@
         Scripts
     ***********************************-->
     <?php 
-    if(isset($_SESSION['email_verify']) == 1 AND isset($_SESSION['mobile_verify']) == 1){
+    if(isset($_SESSION['email_verify']) AND isset($_SESSION['mobile_verify'])){
 
         $stm = $connection->prepare("UPDATE users SET status=? WHERE email_status=? AND mobile_status=? AND email=? AND mobile=?");
         $stm->execute(array("Active",1,1,$_SESSION['user_email'],$_SESSION['user_mobile']));

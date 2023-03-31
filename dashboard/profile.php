@@ -2,7 +2,7 @@
 require_once('../config.php');
 require_once('../includes/header.php');
 
-// $profile = getProfile($_SESSION['user']['id']);
+
 
 ?>
 
@@ -84,10 +84,10 @@ require_once('../includes/header.php');
                         </ul>
                         <br>
                         <div class="col-12 text-center">
-                            <a href="update.php" class="btn btn-danger px-5">Update Profile</a>
+                            <a href="<?php APP_URL(); ?>/dashboard/update-profile.php?id=<?php echo $_SESSION['user']['id'] ?>" class="btn btn-danger px-5">Update Profile</a>
                             <br>
                             <br>
-                            <a href="dashboard/change-password.php" class="btn btn-warning px-5">Change Password</a>
+                            <a href="<?php APP_URL(); ?>/dashboard/change-password.php" class="btn btn-warning px-5">Change Password</a>
                         </div>
                     </div>
                 </div>  
@@ -95,6 +95,6 @@ require_once('../includes/header.php');
             
         </div>
     </div>
-    <!-- #/ container -->
+    
 
 <?php require_once('../includes/footer.php') ?>

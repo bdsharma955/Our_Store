@@ -5,3 +5,7 @@
     font-size: 22px !important;
     text-align: center;
 }
+.login-input .form-group .form-control{
+    background: #0000000d;
+    padding-left: 12px;
+}

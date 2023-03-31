@@ -20,7 +20,7 @@
   
     <title>Our Store - Dashboard</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/o-logo.png">
     <!-- Pignose Calender -->
     <link href="../plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
@@ -59,7 +59,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.php">
+                <a href="<?php APP_URL(); ?>/dashboard/index.php">
                     <b class="logo-abbr"><h2 class="our-logo" style="color: #fff";>O</h2></b>
                     <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
                     <span class="brand-title">
@@ -178,7 +178,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="index.php">
+                        <a href="<?php APP_URL(); ?>/index.php">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -190,7 +190,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="<?php APP_URL(); ?>/categories/add-new.php">Add New</a></li>
-                            <li><a href="categories.php">All Categories</a></li>
+                            <li><a href="<?php APP_URL(); ?>/categories/all-categories.php">All Categories</a></li>
                         </ul>
                     </li>
 
@@ -258,4 +258,4 @@
         ***********************************-->
         <div class="content-body">
 
-            <div class="container-fluid mt-3">
+            <div class="container-fluid">

@@ -37,6 +37,9 @@ if(isset($_POST['login_form'])){
                 $message = "Your Verification Code is: ".$email_code;
                 mail($userData['email'],"Email Verification",$message);
 
+                $mobile_code = rand(111111,999999);
+                $stm = $connection->prepare("UPDATE users SET mobile_code=? WHERE mobile=?");
+                $stm->execute(array($mobile_code,$userData['mobile']));
                 
                 header('location:verification.php');
             }

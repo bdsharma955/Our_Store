@@ -2,14 +2,20 @@
 require_once('../config.php');
 require_once('../includes/header.php');
 
+$id = $_REQUEST['id'];
+
 $user_id = $_SESSION['user']['id'];
 
-if(isset($_POST['add_new_form'])){
+if(isset($_POST['update_form'])){
     $category_name = $_POST['cate_name'];
     $category_slug = $_POST['cate_slug'];
 
     $slugCount = getColumnCount('categories','category_slug',$category_slug);
     $pattern1 = "/^[a-z-0-9]+$/";
+
+    $stm = $connection->prepare("SELECT category_slug FROM categories WHERE category_slug=? AND id=?");
+    $stm->execute(array($category_slug,$id));
+    $ownSlugCount=$stm->rowCount();
 
     if(empty($category_name)){
         $error = "Category Name is Required!";
@@ -17,7 +23,7 @@ if(isset($_POST['add_new_form'])){
     elseif(empty($category_slug)){
         $error = "Category Slug is Required!";
     }
-    elseif($slugCount != 0){
+    elseif($slugCount != 0 AND $ownSlugCount != 1){
         $error = "Category Slug Already Exits!";
     }
     elseif(!preg_match($pattern1, $category_slug)){
@@ -26,17 +32,16 @@ if(isset($_POST['add_new_form'])){
     
     else{
         $now = date('Y-m-d H:i:s');
-        $stm = $connection->prepare("INSERT INTO categories(user_id,category_name,category_slug,create_at) VALUES(?,?,?,?)");
-        $stm->execute(array($user_id,$category_name,strtolower($category_slug),$now));
+        $stm = $connection->prepare("UPDATE categories SET category_name=?,category_slug=? WHERE user_id=? AND id=?");
+        $stm->execute(array($category_name,$category_slug,$user_id,$id));
 
-        $success = "Category Create Successfully!";
+        $success = "Category Update Successfully!";
     }
 
 }
 
 ?>
 
-    
     <!-- row -->
 
     <div class="container-fluid">
@@ -58,16 +63,19 @@ if(isset($_POST['add_new_form'])){
                         <?php endif; ?>
                         <div class="basic-form">
                             <form method="POST" action="">
+                                <?php 
+                                    $cate_data = getSingleCount('categories',$id);
+                                ?>
                                 <div class="form-group">
                                     <label for="cate_name">Category Name</label>
-                                    <input type="text" name="cate_name" id="cate_name" class="form-control" placeholder="Category Name">
+                                    <input type="text" name="cate_name" id="cate_name" class="form-control" value="<?php echo $cate_data['category_name']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="cate_slug">Category Slug</label>
-                                    <input type="text" name="cate_slug" id="cate_slug" class="form-control" placeholder="Category Slug">
+                                    <input type="text" name="cate_slug" id="cate_slug" class="form-control" value="<?php echo $cate_data['category_slug']; ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="add_new_form" class="btn btn-success" value="Create">
+                                    <input type="submit" name="update_form" class="btn btn-success" value="Update">
                                 </div>
                             </form>
                         </div>
@@ -77,6 +85,6 @@ if(isset($_POST['add_new_form'])){
             
         </div>
     </div>
-    
+    <!-- #/ container -->
 
 <?php require_once('../includes/footer.php') ?>

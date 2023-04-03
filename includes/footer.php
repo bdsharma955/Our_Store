@@ -11,7 +11,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+                <p>Copyright &copy; Designed & Developed by <a href="https://coderit.online/biplob_deb/Our_Store">Our Store</a> 2018</p>
             </div>
         </div>
         <!--**********************************
@@ -49,7 +49,8 @@
     <script src="../plugins/chartist/js/chartist.min.js"></script>
     <script src="../plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
-
+    <script src="../plugins/summernote/dist/summernote.min.js"></script>
+    <script src="../plugins/summernote/dist/summernote-init.js"></script>
 
     <script src="../js/dashboard/dashboard-1.js"></script>
 

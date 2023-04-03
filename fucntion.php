@@ -55,6 +55,14 @@
         $result=$stm->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+        //Get Product category DATA
+    function getProductdata($col,$id){
+        global $connection;
+        $stm=$connection->prepare("SELECT $col FROM categories WHERE id=?");
+        $stm->execute(array($id));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result[$col];
+    }
  
 
 ?>

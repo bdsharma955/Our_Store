@@ -26,6 +26,7 @@
     <!-- Chartist -->
     <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link href="../plugins/summernote/dist/summernote.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/custom.css" rel="stylesheet">
@@ -37,13 +38,13 @@
     <!--*******************
         Preloader start
     ********************-->
-    <!-- <div id="preloader">
+    <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div> -->
+    </div>
     <!--*******************
         Preloader end
     ********************-->
@@ -143,7 +144,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                                 <?php if($profile['photo'] != NULL) : ?>
-                                <img class="mr-3" src="../images/avatar/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
+                                <img class="mr-3 rounded-circle" style="object-fit:cover;" src="../uploads/profile/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
                                 <?php else: ?>
                                 <img class="mr-3" src="../images/avatar/11.png" width="80" height="80" alt="">
                                 <?php endif; ?>
@@ -194,38 +195,38 @@
                         </ul>
                     </li>
 
-                    <li class="nav-label">Products</li>
+
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                         <i class="fa fa-cart-plus" aria-hidden="true"></i>
                         <span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-new-product.php">Add New</a></li>
-                            <li><a href="products.php">All Products</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-label">Menufacture</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Menufacture</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="add-new-menufacture.php">Add New</a></li>
-                            <li><a href="menufactures.php">All Menufacture</a></li>
+                            <li><a href="<?php APP_URL(); ?>/products/add-new.php">Add New</a></li>
+                            <li><a href="<?php APP_URL(); ?>/products/all-products.php">All Products</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-label">Purchase</li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Menufacture</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="<?php APP_URL(); ?>/menufactures/add-new.php">Add New</a></li>
+                            <li><a href="<?php APP_URL(); ?>/menufactures/all-menufacture.php">All Menufacture</a></li>
+                        </ul>
+                    </li>
+
+                    
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         <span class="nav-text">Purchase</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-new-purchase.php">Add New</a></li>
-                            <li><a href="purchases.php">All Purchase</a></li>
+                            <li><a href="../phurchases/add-new.php">Add New</a></li>
+                            <li><a href="../phurchases/all-phurchases.php">All Purchase</a></li>
                         </ul>
                     </li>
 

@@ -53,6 +53,7 @@
     <script src="../plugins/summernote/dist/summernote-init.js"></script>
 
     <script src="../js/dashboard/dashboard-1.js"></script>
+    <script src="../js/custom.js"></script>
 
 </body>
 

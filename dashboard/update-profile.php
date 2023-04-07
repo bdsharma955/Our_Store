@@ -141,17 +141,18 @@ if(isset($_POST['update_profile_form'])){
                                     <div class="form-group">
                                         <label>Gender</label>
                                         <br>
-                                        <label><input type="radio" name="gender" value="Male" checked> Male</label>
-                                        <label style="margin-left: 25px;"><input type="radio" name="gender" value="Female"> Female</label>
+                                        <label><input type="radio" name="gender" <?php if($result['gender']=="Male"){
+                                            echo "checked";
+                                        } ?> value="Male"> Male</label>
+                                        <label style="margin-left: 25px;"><input type="radio" <?php if($result['gender']=="Female"){
+                                            echo "checked";
+                                        } ?> name="gender" value="Female"> Female</label>
                                     </div>
                                     <div class="form-group">
                                         <label for="date">Date</label>
                                         <input type="date" name="date_of_birth" id="date" value="<?php echo $result['date_of_birth']; ?>" class="form-control"  placeholder="Date of Birth">
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label for="date_of_birth">Date</label>
-                                        <input type="date" name="date_of_birth" id="date_of_birth" value="<?php echo $result['date_of_birth']; ?>" class="form-control"  placeholder="Date of Birth">
-                                    </div> -->
+                                    
                                     <button type="submit" name="update_profile_form" class="btn login-form__btn submit w-100">Update</button>
                                 </form>
                                 </div>

@@ -63,6 +63,56 @@
         $result=$stm->fetch(PDO::FETCH_ASSOC);
         return $result[$col];
     }
- 
+
+        //Get Product Products DATA
+    function getProductName($col,$id){
+        global $connection;
+        $stm=$connection->prepare("SELECT $col FROM products WHERE id=?");
+        $stm->execute(array($id));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result[$col];
+    }
+
+
+        //Get Product Menufactures DATA
+    function getMenufactureName($col,$id){
+        global $connection;
+        $stm=$connection->prepare("SELECT $col FROM menufactures WHERE id=?");
+        $stm->execute(array($id));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result[$col];
+        
+
+    }
+
+        //Get Group name
+    function getGroupName($col,$name,$pid){
+        global $connection;
+        $stm=$connection->prepare("SELECT $col FROM groups WHERE group_name=? AND product_id=?");
+        $stm->execute(array($name,$pid));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result[$col];
+
+    }
+     
+    // $cate_data = getSingleCount('menufactures',$id);
+
+   
+    // function getPurchase($col,$user_id){
+    //     global $connection;
+    //     $stm=$connection->prepare("SELECT * FROM purchases WHERE user_id=?");
+    //     $stm->execute(array($user_id));
+    //     $result=$stm->fetch(PDO::FETCH_ASSOC);
+    //     return $result[$col];
+    // }
+
+    // function getSingleCount1($tbl,$id){
+    //     global $connection;
+    //     $stm = $connection->prepare("SELECT * FROM $tbl WHERE user_id=? AND id=?");
+    //     $stm->execute(array($_SESSION['user']['id'],$id));
+    //     $result=$stm->fetch(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
 
 ?>

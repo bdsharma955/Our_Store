@@ -62,13 +62,20 @@ if(isset($_POST['add_new_form'])){
                         <?php echo $error; ?>
                         </div>    
                         <?php endif; ?>
+
                         <?php if(isset($success)) : ?>
                         <div class="alert alert-success">
                         <?php echo $success; ?>
                         </div>    
                         <?php endif; ?>
+                        
+                        <div id="ajaxError" style="display:none;" class="alert alert-danger"></div>    
                         <div class="basic-form">
                             <form method="POST" action="">
+                                <div class="form-group">
+                                    <label for="customer_name">Customer Name</label>
+                                    <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Customer Name">
+                                </div>
                                 <div class="form-group">
                                     <label for="product_id">Select Product</label>
                                     <select name="product_id" id="product_id" class="form-control">
@@ -81,39 +88,52 @@ if(isset($_POST['add_new_form'])){
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="menufacture_id">Select Menufacture</label>
-                                    <select name="menufacture_id" id="menufacture_id" class="form-control">
-                                        <?php 
-                                            $menufactures = getTableCount('menufactures');
-                                            foreach($menufactures as $menufacture) :
-                                         ?>
-                                        <option value="<?php echo $menufacture['id'] ?>"><?php echo $menufacture['name']." - ".$menufacture['mobile_number']; ?></option>
-                                        <?php  endforeach; ?>
-                                    </select>
+                                    <label for="menufacture_name">Menufacture</label>
+                                    <input type="text" name="menufacture_name" id="menufacture_name" class="form-control" readonly>
+                                    <input type="hidden" name="menufacture_id" id="menufacture_id">
                                 </div>
                                 <div class="form-group">
                                     <label for="group_name">Group Name</label>
-                                    <input type="text" name="group_name" id="group_name" class="form-control" placeholder="Group Name">
+                                    <select name="group_name" id="group_name" class="form-control" ></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="expire">Expire Date</label>
+                                    <input type="text" name="expire" id="expire" class="form-control" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                    <input type="text" name="price" id="price" class="form-control" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="menu_price">Menufacture Price</label>
-                                    <input type="text" name="menu_price" id="menu_price" class="form-control" placeholder="Menufacture Price">
+                                    <input type="text" name="menu_price" id="menu_price" class="form-control" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
-                                    <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="expire">Expire Date</label>
-                                    <input type="date" name="expire" id="expire" class="form-control" placeholder="Expire Date">
+                                    <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="add_new_form" class="btn btn-success" value="Create">
+                                    <label for="total_price">Total Price</label>
+                                    <input type="text" name="total_price" id="total_price" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount_type">Discount Type</label>
+                                    <select name="discount_type" id="discount_type" class="form-control" >
+                                        <option value="none">None</option>
+                                        <option value="fixed">Fixed</option>
+                                        <option value="percentage">Percentage</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount_amount">Discount Amount</label>
+                                    <input type="text" name="discount_amount" id="discount_amount" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sub_total">Sub Total</label>
+                                    <input type="text" name="sub_total" id="sub_total" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" name="add_new_form" class="btn btn-success" value="Create Sale">
                                 </div>
                             </form>
                         </div>
@@ -125,3 +145,34 @@ if(isset($_POST['add_new_form'])){
     
 
 <?php require_once('../includes/footer.php') ?>
+
+<script>
+    $('#product_id').on('change',function(){
+        let product_id = $(this).val();
+
+        // console.log(product_id);
+
+        $.ajax({
+            type: "POST",
+            url: 'ajax.php',
+            data:{
+                product_id:product_id
+            } ,
+            success: function(response){
+                let productResult = JSON.parse(response);
+                console.log(productResult);
+                if(productResult.count == 0){
+                    $('#ajaxError').show().text(productResult.message);
+                }
+                else{
+                    $('#ajaxError').hide();
+                    $('#menufacture_name').val(productResult.menufacture_name);
+                    $('#menufacture_id').val(productResult.menufacture_id);
+                }
+                
+            }
+
+        });
+    })
+
+</script>

@@ -38,13 +38,13 @@
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div>
+    </div> -->
     <!--*******************
         Preloader end
     ********************-->
@@ -226,7 +226,17 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="../phurchases/add-new.php">Add New</a></li>
+                            <li><a href="../phurchases/group-purchase.php">Group Purchase</a></li>
                             <li><a href="../phurchases/all-phurchases.php">All Purchase</a></li>
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="nav-text">Groups</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="../groups/all-groups.php">All Group</a></li>
                         </ul>
                     </li>
 
@@ -237,8 +247,8 @@
                         <span class="nav-text">Sales</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-new-sale.php">Add New</a></li>
-                            <li><a href="sales.php">All Sales</a></li>
+                            <li><a href="../sales/add-new.php">Add New</a></li>
+                            <li><a href="../sales/all-sales.php">All Sales</a></li>
                         </ul>
                     </li>
                     <li>

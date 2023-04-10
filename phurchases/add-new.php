@@ -13,8 +13,14 @@ if(isset($_POST['add_new_form'])){
     $quantity = $_POST['quantity'];
     $expire = $_POST['expire'];
 
+    $groupCount = getColumnCount('purchases','group_name',$group_name);
+
+    
     if(empty($group_name)){
         $error = "Group Name is Required!";
+    }
+    elseif($groupCount != 0){
+        $error = "Group Name Already Exists!";
     }
     elseif(empty($per_item_price)){
         $error = "Price is Required!";
@@ -39,6 +45,10 @@ if(isset($_POST['add_new_form'])){
         // Create Purchase 
         $stm = $connection->prepare("INSERT INTO purchases(user_id,menufacture_id,product_id,group_name,quantity,per_item_price,per_item_m_price,total_price,total_m_price,create_at) VALUES(?,?,?,?,?,?,?,?,?,?)");
         $stm->execute(array($user_id,$menufacture_id,$product_id,$group_name,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now));
+
+        // upfate product stock
+        $stm2 = $connection->prepare("UPDATE products SET stock=? WHERE id=? AND user_id=?");
+        $stm2->execute(array($quantity,$product_id,$user_id));
 
         $success = "Create Successfully!";
     }

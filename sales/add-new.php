@@ -79,6 +79,7 @@ if(isset($_POST['add_new_form'])){
                                 <div class="form-group">
                                     <label for="product_id">Select Product</label>
                                     <select name="product_id" id="product_id" class="form-control">
+                                        <option value="#">Select Product</option>
                                         <?php 
                                             $products = getTableCount('products');
                                             foreach($products as $product) :
@@ -109,8 +110,9 @@ if(isset($_POST['add_new_form'])){
                                     <input type="text" name="menu_price" id="menu_price" class="form-control" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="quantity">Quantity</label>
+                                    <label for="quantity">Quantity: <span id="available_stock" class="badge badge-info"></span></label>
                                     <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+                                    <input type="hidden" name="stock" id="stock">
                                 </div>
                                 <div class="form-group">
                                     <label for="total_price">Total Price</label>
@@ -150,7 +152,7 @@ if(isset($_POST['add_new_form'])){
     $('#product_id').on('change',function(){
         let product_id = $(this).val();
 
-        // console.log(product_id);
+
 
         $.ajax({
             type: "POST",
@@ -160,7 +162,7 @@ if(isset($_POST['add_new_form'])){
             } ,
             success: function(response){
                 let productResult = JSON.parse(response);
-                console.log(productResult);
+
                 if(productResult.count == 0){
                     $('#ajaxError').show().text(productResult.message);
                 }
@@ -168,11 +170,111 @@ if(isset($_POST['add_new_form'])){
                     $('#ajaxError').hide();
                     $('#menufacture_name').val(productResult.menufacture_name);
                     $('#menufacture_id').val(productResult.menufacture_id);
+                    $('#stock').val(productResult.stock);
+                    $('#available_stock').text("Available Stock: "+productResult.stock);
+
+                    // Get Groups
+                    $('#group_name').empty();
+                    let groups = productResult.groups;
+                    $('#group_name').append('<option value="">Select Group</option>');
+                    $.each(groups,function (i,item) {
+                        $('<option value="'+groups[i].id+'">').html(
+                            '<span>'+groups[i].group_name+'</span>'
+                        ).appendTo('#group_name');
+                    });
                 }
-                
+            }
+        });
+    });
+
+    // GET Group Data
+    $('#group_name').on('change',function(){
+        let group_id = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "ajax.php",
+            data:{
+                group_id:group_id
+            },
+            success:function(response){
+                let groupResult = JSON.parse(response);
+                $('#expire').val(groupResult.expire_date);
+                $('#price').val(groupResult.per_item_price);
+                $('#menu_price').val(groupResult.per_item_price);
             }
 
         });
+    });
+
+    // get quantity total price
+    $('#quantity').on('keyup',function(){
+        
+        let price = $('#price').val();
+        let quantity = $(this).val();
+        let stock = $('#stock').val();
+
+        if(price.length == 0){
+            $('#ajaxError').show().text("Please Select Product and Groups!");
+        }
+        else if(!jQuery.isNumeric(quantity)){
+            $('#ajaxError').show().text("Quantity must be number!");
+        }
+        else if(quantity>stock){
+            $('#ajaxError').show().text("Product stock is low!");
+        }
+        else{
+            $('#ajaxError').hide();
+            let total_price = price*quantity;
+            $('#total_price').val(total_price);
+            $('#sub_total').val(total_price);
+        }
+
+    });
+
+    // get quantity total price
+    $('#discount_amount').on('keyup',function(){
+        let type = $('#discount_type').val();
+        let discount_amount = $(this).val();
+
+        if(type == "fixed"){
+            if(!jQuery.isNumeric(discount_amount)){
+                $('#ajaxError').show().text("Discount number must be number!");
+            }
+            else{
+                let total__price = $('#total_price').val();
+                let new_sub_total = total__price-discount_amount;
+                $('#sub_total').val(new_sub_total)
+            }
+           
+        }
+        else if(type == "percentage"){
+            if(!jQuery.isNumeric(discount_amount)){
+                $('#ajaxError').show().text("Discount number must be number!");
+            }
+            else{
+                let total___price = $('#total_price').val();
+                let percentage_amount = total___price*discount_amount/100;
+                let new__sub_total = total___price-percentage_amount;
+                $('#sub_total').val(new__sub_total)
+            }
+        }
+        else{
+            $('#discount_amount').val('');
+            let total__price = $('#total_price').val();
+            $('#sub_total').val(total__price);
+        }
+        
+    });
+
+    $('#discount_type').on('change',function(){
+        let dis_type = $(this).val();
+        if(dis_type == "none"){
+            $('#discount_amount').val('');
+            let total__price = $('#total_price').val();
+            $('#sub_total').val(total__price);
+        }
     })
+    
+
 
 </script>

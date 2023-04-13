@@ -1,10 +1,10 @@
 
 <?php 
     session_start();
-    if(!isset($_SESSION['user'])){
+    if(!isset($_SESSION['admins'])){
         header('location:login.php');
     }
-    $profile = getProfile($_SESSION['user']['id']);
+    $profile = getAdminProfile($_SESSION['admins']['id']);
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
   
-    <title>Our Store - Dashboard</title>
+    <title>Our Store - Admin Dashboard</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/o-logo.png">
     <!-- Pignose Calender -->
@@ -34,21 +34,6 @@
 </head>
 
 <body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <!-- <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div> -->
-    <!--*******************
-        Preloader end
-    ********************-->
-
     
     <!--**********************************
         Main wrapper start
@@ -145,20 +130,20 @@
                                 <span class="activity active"></span>
                                 <?php if($profile['photo'] != NULL) : ?>
                                 <img class="mr-3 rounded-circle" style="object-fit:cover;" src="../uploads/profile/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
-                                <?php else: ?>
-                                <img class="mr-3" src="../images/avatar/11.png" width="80" height="80" alt="">
-                                <?php endif; ?>
+                                <?php  else: ?>
+                                <img class="mr-3" src="../images/avatar/1.png" width="80" height="80" alt="">
+                                <?php  endif; ?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="<?php APP_URL(); ?>/dashboard/profile.php"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                         <li>
-                                            <a href="<?php APP_URL(); ?>/dashboard/change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
+                                            <a href="change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
                                         </li>
-                                        <li><a href="<?php APP_URL(); ?>/logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -179,78 +164,48 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="<?php APP_URL(); ?>/dashboard">
+                        <a href="index.php">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
 
-                    <li class="nav-label">Categories</li>
+                    <li class="nav-label">Users</li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="nav-text">Users</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="all-users.php">All Users</a></li>
+                            <li><a href="pending-users.php">Pending Users</a></li>
+                            <li><a href="block-users.php">Blocked Users</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-label">Products</li>
+                    <li>
+                        <a href="categories.php">
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Categories</span>
                         </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php APP_URL(); ?>/categories/add-new.php">Add New</a></li>
-                            <li><a href="<?php APP_URL(); ?>/categories/all-categories.php">All Categories</a></li>
-                        </ul>
                     </li>
 
+                    <li>
+                        <a href="products.php">
+                            <i class="fa fa-cart-plus"></i><span class="nav-text">Products</span>
+                        </a>
+                    </li>
 
+                    <li class="nav-label">Reports</li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        <span class="nav-text">Products</span>
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Reports</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="<?php APP_URL(); ?>/products/add-new.php">Add New</a></li>
-                            <li><a href="<?php APP_URL(); ?>/products/all-products.php">All Products</a></li>
+                            <li><a href="admin/sales-reports.php">Sales Reports</a></li>
+                            <li><a href="admin/purchase-reports.php">Purchase Reports</a></li>
                         </ul>
                     </li>
-
-                    <li class="nav-label">Purchase</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Menufacture</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php APP_URL(); ?>/menufactures/add-new.php">Add New</a></li>
-                            <li><a href="<?php APP_URL(); ?>/menufactures/all-menufacture.php">All Menufacture</a></li>
-                        </ul>
-                    </li>
-
                     
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <span class="nav-text">Purchase</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="../phurchases/add-new.php">Add New</a></li>
-                            <li><a href="../phurchases/group-purchase.php">Group Purchase</a></li>
-                            <li><a href="../phurchases/all-phurchases.php">All Purchase</a></li>
-                        </ul>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <span class="nav-text">Groups</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="../groups/all-groups.php">All Group</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-label">Sales</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                        <span class="nav-text">Sales</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="../sales/add-new.php">Add New</a></li>
-                            <li><a href="../sales/all-sales.php">All Sales</a></li>
-                        </ul>
-                    </li>
                     <li>
                         <a href="setting.php">
                             <i class="fa fa-gear menu-icon"></i><span class="nav-text">Setting</span>

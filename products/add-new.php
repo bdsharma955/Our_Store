@@ -40,8 +40,8 @@ if(isset($_POST['add_new_form'])){
         move_uploaded_file($_FILES["photo"]["tmp_name"],$target_directory.$new_photo_name);
         $now = date('Y-m-d H:i:s');
 
-        $stm = $connection->prepare("INSERT INTO products(user_id,product_name,category_id,discription,photo,create_at) VALUES(?,?,?,?,?,?)");
-        $stm->execute(array($user_id,$product_name,$product_category,$discription,$new_photo_name,$now));
+        $stm = $connection->prepare("INSERT INTO products(user_id,product_name,category_id,discription,photo,create_at,stock) VALUES(?,?,?,?,?,?,?)");
+        $stm->execute(array($user_id,$product_name,$product_category,$discription,$new_photo_name,$now,"Null"));
 
         $success = "Product Create Successfully!";
     }

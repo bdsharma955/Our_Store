@@ -47,7 +47,7 @@ if(isset($_POST['add_new_form'])){
         $stm->execute(array($user_id,$menufacture_id,$product_id,$group_name,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now));
 
         // upfate product stock
-        $stm2 = $connection->prepare("UPDATE products SET stock=? WHERE id=? AND user_id=?");
+        $stm2 = $connection->prepare("UPDATE products SET stock=stock+? WHERE id=? AND user_id=?");
         $stm2->execute(array($quantity,$product_id,$user_id));
 
         $success = "Create Successfully!";

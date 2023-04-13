@@ -11,7 +11,8 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://coderit.online/biplob_deb/Our_Store">Our Store </a><?php echo date('Y'); ?></p>
+                <p>Copyright &copy; Designed & Developed by <a href="https://coderit.online/biplob_deb/Our_Store">Our Store </a>
+                <?php echo date('Y'); ?></p>
             </div>
         </div>
         <!--**********************************

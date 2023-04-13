@@ -1,6 +1,6 @@
 <?php 
     require_once('../config.php');
-    require_once('../includes/header.php');
+    require_once('header.php');
     
 
 
@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Purchase</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white"><?php echo getTotalValue('purchases','total_price'); ?></h2>
+                        <h2 class="text-white"></h2>
                         <p class="text-white mb-0">Jan - March 2019</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Sales</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white"><?php echo getTotalValue('sales','sub_total'); ?></h2>
+                        <h2 class="text-white"></h2>
                         <p class="text-white mb-0">Jan - March 2019</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Products</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white"><?php echo getTableProduct(); ?></h2>
+                        <h2 class="text-white"></h2>
                         <p class="text-white mb-0">Jan - March 2019</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
@@ -66,7 +66,7 @@
                             <div>
                                 <h4 class="mb-1">Product Sales</h4>
                                 <p>Total Earnings of the Month</p>
-                                <h3 class="m-0">$ <?php echo getTotalValue('sales','sub_total'); ?></h3>
+                                <h3 class="m-0"></h3>
                             </div>
                             <div>
                                 <ul>
@@ -551,5 +551,5 @@
                     </div>
            
 <?php 
-    require_once('../includes/footer.php');
+    require_once('footer.php');
  ?>

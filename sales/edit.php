@@ -7,15 +7,24 @@ $id = $_REQUEST['id'];
 $user_id = $_SESSION['user']['id'];
 
 if(isset($_POST['add_new_form'])){
+    $customer_name = $_POST['customer_name'];
     $product_id = $_POST['product_id'];
     $menufacture_id = $_POST['menufacture_id'];
     $group_name = $_POST['group_name'];
-    $per_item_price = $_POST['per_item_price'];
-    $per_item_m_price = $_POST['per_item_m_price'];
+    $expire_date = $_POST['expire-date'];
+    $per_item_price = $_POST['price'];
+    $per_item_m_price = $_POST['menu_price'];
     $quantity = $_POST['quantity'];
-    // $expire_date = $_POST['expire'];
+    $total_price = $_POST['total_price'];
+    $discount_type = $_POST['discount_type'];
+    $discount_amount = $_POST['discount_amount'];
+    $sub_total = $_POST['sub_total'];
+    
 
     if(empty($group_name)){
+        $error = "Customer Name is Required!";
+    }
+    elseif(empty($group_name)){
         $error = "Group Name is Required!";
     }
     elseif(empty($per_item_price)){
@@ -33,15 +42,18 @@ if(isset($_POST['add_new_form'])){
     else{
         $now = date('Y-m-d H:i:s');
         $total_price = $per_item_price*$quantity;
-        $total_m_price = $per_item_m_price*$quantity;
+        // $total_m_price = $per_item_m_price*$quantity;
         
-        // Create Group 
-        $stm = $connection->prepare("UPDATE groups SET group_name=?,product_id=?,quantity=?,per_item_price=?,per_item_m_price=?,total_price=?,total_m_price=?,create_at=? WHERE user_id=? AND id=?");
-        $stm->execute(array($group_name,$product_id,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now,$user_id,$id));
+        // Create Sales 
+        $stm = $connection->prepare("UPDATE sales SET customer_name=?,group_name=?,price=?,menu_price=?,quantity=?,expire_date=?,total_price=?,discount_type=?,discount_amount=?,sub_total=?,create_at=? WHERE user_id=? AND id=?");
+        $stm->execute(array($customer_name,$group_name,$per_item_price,$per_item_m_price,$quantity,$expire_date,$total_price,$discount_type,$discount_amount,$sub_total,$now,$user_id,$id));
+
+        $stm2 = $connection->prepare("UPDATE products SET stock=stock-? WHERE id=? AND user_id=?");
+        $stm2->execute(array($quantity,$product_id,$user_id));
 
         // Create Purchase 
-        $stm = $connection->prepare("UPDATE purchases SET menufacture_id=?,product_id=?,group_name=?,quantity=?,per_item_price=?,per_item_m_price=?,total_price=?,total_m_price=?,create_at=? WHERE user_id=? AND id=?");
-        $stm->execute(array($menufacture_id,$product_id,$group_name,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now,$user_id,$id));
+        // $stm = $connection->prepare("UPDATE purchases SET menufacture_id=?,product_id=?,group_name=?,quantity=?,per_item_price=?,per_item_m_price=?,total_price=?,total_m_price=?,create_at=? WHERE user_id=? AND id=?");
+        // $stm->execute(array($menufacture_id,$product_id,$group_name,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now,$user_id,$id));
 
         $success = "Update Successfully!";
     }
@@ -58,7 +70,7 @@ if(isset($_POST['add_new_form'])){
             <div class="col-lg-9 col-xl-9">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Update Phurchase</h3>
+                        <h3 class="card-title">Update Sales</h3>
                         <hr>
                         <?php if(isset($error)) : ?>
                         <div class="alert alert-danger">
@@ -71,60 +83,117 @@ if(isset($_POST['add_new_form'])){
                         </div>    
                         <?php endif; ?>
                         <div class="basic-form">
-                            <form method="POST" action="" enctype="multipart/form-data">
-                                <?php 
-                                    $getPurchases = getSingleCount('purchases',$id);
-                                    // foreach($getPurchases as $getPurchase) :
-                                 ?>
+                        <form method="POST" action="">
+
+                               <?php 
+                                $sale_data = getSingleCount('sales',$id);
+                               ?>
+
+                                <div class="form-group">
+                                    <label for="customer_name">Customer Name</label>
+                                    <input type="text" name="customer_name" value="<?php echo $sale_data['customer_name'] ?>" id="customer_name" class="form-control" placeholder="Customer Name" required>
+                                </div>
                                 <div class="form-group">
                                     <label for="product_id">Select Product</label>
                                     <select name="product_id" id="product_id" class="form-control">
+                                        <option value="#">Select Product</option>
                                         <?php 
                                             $products = getTableCount('products');
                                             foreach($products as $product) :
                                          ?>
-                                        <option value="<?php echo $product['id'] ?>"><?php echo $product['product_name'] ?></option>
+                                        <option value="<?php echo $product['id'] ?>"
+                                        <?php if($product['id'] == $sale_data['product_id']){
+                                            echo "selected";
+                                        } ?>
+                                        ><?php echo $product['product_name'] ?></option>
                                         <?php  endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="menufacture_id">Select Menufacture</label>
-                                    <select name="menufacture_id" id="menufacture_id" class="form-control">
+                                    <label for="product_id">Select menufacture</label>
+                                    <select name="product_id" id="product_id" class="form-control">
+                                        <option value="#">Select Menufacture</option>
                                         <?php 
                                             $menufactures = getTableCount('menufactures');
                                             foreach($menufactures as $menufacture) :
                                          ?>
-                                        <option value="<?php echo $menufacture['id'] ?>"><?php echo $menufacture['name']." - ".$menufacture['mobile_number']; ?></option>
+                                        <option value="<?php echo $menufacture['id'] ?>"
+                                        <?php if($menufacture['id'] == $sale_data['menufacture_id']){
+                                            echo "selected";
+                                        } ?>
+                                        ><?php echo $menufacture['name'] ?></option>
                                         <?php  endforeach; ?>
                                     </select>
                                 </div>
-                                
                                 <div class="form-group">
-                                    <label for="group_name">Group Name</label>
-                                    <input type="text" name="group_name" value="<?php echo $getPurchases['group_name'] ?>" id="group_name" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label for="per_item_price">Price</label>
-                                    <input type="text" name="per_item_price" value="<?php echo $getPurchases['per_item_price'] ?>" id="per_item_price" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="per_item_m_price">Menufacture Price</label>
-                                    <input type="text" name="per_item_m_price" value="<?php echo $getPurchases['per_item_m_price'] ?>" id="per_item_m_price" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="text" name="quantity" value="<?php echo $getPurchases['quantity'] ?>" id="quantity" class="form-control">
+                                    <label for="menufacture_name">Menufacture</label>
+                                    <input type="text" name="menufacture_name" id="menufacture_name" value="<?php echo $sale_data['menufacture_id'] ?>" class="form-control" readonly>
+                                    <input type="hidden" name="menufacture_id" id="menufacture_id">
                                 </div>
 
-                                <!-- <div class="form-group">
-                                    <label for="expire_date">Expire Date</label>
-                                    <input type="date" name="expire_date"<?php 
-                                    // $expireDate = getGroupName('expire_date',$getPurchases['group_name'],$getPurchases['product_id']); 
-                                    // echo date('d-m-Y',strtotime($expireDate));
-                                    ?> id="expire_date" class="form-control">
-                                </div> -->
                                 <div class="form-group">
-                                    <input type="submit" name="add_new_form" class="btn btn-success" value="Update">
+                                    <label for="group_name">Group Name</label>
+                                    <select name="group_name" id="group_name" class="form-control">
+                                        <option value="#">Select Group</option>
+                                        <?php 
+                                            $groups = getTableCount('groups');
+                                            foreach($groups as $group) :
+                                         ?>
+                                        <option value="<?php echo $group['id'] ?>"
+                                        <?php if($group['id'] == $sale_data['group_name']){
+                                            echo "selected";
+                                        } ?>
+                                        ><?php echo $group['group_name'] ?></option>
+                                        <?php  endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="expire">Expire Date</label>
+                                    <input type="text" name="expire-date" id="expire" value="<?php echo $sale_data['expire_date'] ?>" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input type="text" name="price" id="price" value="<?php echo $sale_data['price'] ?>" class="form-control" readonly required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="menu_price">Menufacture Price</label>
+                                    <input type="text" name="menu_price" id="menu_price" value="<?php echo $sale_data['menu_price'] ?>" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity: <span id="available_stock" class="badge badge-info"></span></label>
+                                    <input type="number" name="quantity" id="quantity" value="<?php echo $sale_data['quantity'] ?>" class="form-control" placeholder="Quantity" required>
+                                    <input type="hidden" name="stock" id="stock">
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_price">Total Price</label>
+                                    <input type="text" name="total_price" id="total_price" value="<?php echo $sale_data['total_price'] ?>" class="form-control" readonly required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount_type">Discount Type</label>
+                                    <select name="discount_type" id="discount_type" class="form-control" >
+                                        <option value="<?php echo $sale_data['discount_type'] ?>"<?php if($sale_data['discount_type'] == "None"){
+                                            echo "selected";
+                                        } ?>>None</option>
+                                        <option value="<?php echo $sale_data['discount_type'] ?>"<?php if($sale_data['discount_type'] == "fixed"){
+                                            echo "selected";
+                                        } ?>>Fixed</option>
+                                        <option value="<?php echo $sale_data['discount_type'] ?>"<?php if($sale_data['discount_type'] == "percentage"){
+                                            echo "selected";
+                                        } ?>>Percentage</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount_amount">Discount Amount</label>
+                                    <input type="text" name="discount_amount" id="discount_amount" value="<?php echo $sale_data['discount_amount'] ?>" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sub_total">Sub Total</label>
+                                    <input type="text" name="sub_total" id="sub_total" value="<?php echo $sale_data['sub_total'] ?>" class="form-control" readonly required>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input type="submit" name="add_new_form" class="btn btn-success" value="Create Sale">
                                 </div>
                             </form>
                             <?php

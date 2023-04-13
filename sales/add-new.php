@@ -5,15 +5,29 @@ require_once('../includes/header.php');
 $user_id = $_SESSION['user']['id'];
 
 if(isset($_POST['add_new_form'])){
+    
+    $customer_name = $_POST['customer_name'];
     $product_id = $_POST['product_id'];
     $menufacture_id = $_POST['menufacture_id'];
     $group_name = $_POST['group_name'];
+    $expire = $_POST['expire'];
     $per_item_price = $_POST['price'];
     $per_item_m_price = $_POST['menu_price'];
     $quantity = $_POST['quantity'];
-    $expire = $_POST['expire'];
+    $total_price = $_POST['total_price'];
+    $discount_type = $_POST['discount_type'];
+    $discount_amount = $_POST['discount_amount'];
+    $sub_total = $_POST['sub_total'];
 
-    if(empty($group_name)){
+    $db_expire_date = getGroupNameByID('expire_date',$group_name,$product_id);
+
+     $db_stock = getProductName('stock',$product_id);
+
+
+    if(empty($customer_name)){
+        $error = "Customer Name is Required!";
+    }
+    elseif(empty($group_name)){
         $error = "Group Name is Required!";
     }
     elseif(empty($per_item_price)){
@@ -28,18 +42,25 @@ if(isset($_POST['add_new_form'])){
     elseif(empty($expire)){
         $error = "Expire Date is Required!";
     }
+    elseif($db_expire_date < date("Y-m-d")){
+        $error = "Your Product is Expired!";
+    }
+    elseif($quantity > $db_stock){
+        $error = "Product Out of Stock!";
+    }
     else{
         $now = date('Y-m-d H:i:s');
         $total_price = $per_item_price*$quantity;
         $total_m_price = $per_item_m_price*$quantity;
-        // Create Group 
-        $stm = $connection->prepare("INSERT INTO groups(user_id,group_name,product_id,quantity,expire_date,per_item_price,per_item_m_price,total_price,total_m_price,create_at) VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $stm->execute(array($user_id,$group_name,$product_id,$quantity,$expire,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now));
+        // Create Sales
+        $stm = $connection->prepare("INSERT INTO sales(user_id,customer_name,product_id,menufacture_id,group_name,expire_date,price,menu_price,quantity,total_price,discount_type,discount_amount,sub_total,create_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $stm->execute(array($user_id,$customer_name,$product_id,$menufacture_id,$group_name,$expire,$per_item_price,$per_item_m_price,$quantity,$total_price,$discount_type,$discount_amount,$sub_total,$now));
 
-        // Create Purchase 
-        $stm = $connection->prepare("INSERT INTO purchases(user_id,menufacture_id,product_id,group_name,quantity,per_item_price,per_item_m_price,total_price,total_m_price,create_at) VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $stm->execute(array($user_id,$menufacture_id,$product_id,$group_name,$quantity,$per_item_price,$per_item_m_price,$total_price,$total_m_price,$now));
-
+        // sales to update product for stock
+        $stm = $connection->prepare("UPDATE products SET stock=stock-? WHERE id=?"); 
+        $stm->execute(array($quantity,$product_id));
+       
+        
         $success = "Create Successfully!";
     }
 
@@ -74,7 +95,7 @@ if(isset($_POST['add_new_form'])){
                             <form method="POST" action="">
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
-                                    <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Customer Name">
+                                    <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Customer Name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="product_id">Select Product</label>
@@ -103,7 +124,7 @@ if(isset($_POST['add_new_form'])){
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" readonly>
+                                    <input type="text" name="price" id="price" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label for="menu_price">Menufacture Price</label>
@@ -111,12 +132,12 @@ if(isset($_POST['add_new_form'])){
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity">Quantity: <span id="available_stock" class="badge badge-info"></span></label>
-                                    <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+                                    <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Quantity" required>
                                     <input type="hidden" name="stock" id="stock">
                                 </div>
                                 <div class="form-group">
                                     <label for="total_price">Total Price</label>
-                                    <input type="text" name="total_price" id="total_price" class="form-control" readonly>
+                                    <input type="text" name="total_price" id="total_price" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label for="discount_type">Discount Type</label>
@@ -132,7 +153,7 @@ if(isset($_POST['add_new_form'])){
                                 </div>
                                 <div class="form-group">
                                     <label for="sub_total">Sub Total</label>
-                                    <input type="text" name="sub_total" id="sub_total" class="form-control" readonly>
+                                    <input type="text" name="sub_total" id="sub_total" class="form-control" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" name="add_new_form" class="btn btn-success" value="Create Sale">

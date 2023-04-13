@@ -8,6 +8,15 @@
 
         return  $count;
     }
+    //Get Admin input data count
+    function adminInputCount($col,$value){
+        global $connection;
+        $stm = $connection->prepare("SELECT $col FROM admins WHERE $col=?");
+        $stm->execute(array($value));
+        $count=$stm->rowCount();
+
+        return  $count;
+    }
 
     //GET Add New Table col data
     function getColumnCount($tbl,$col,$value){
@@ -27,12 +36,28 @@
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    //Get Admin Table view data
+    function getAdminData($tbl){
+        global $connection;
+        $stm = $connection->prepare("SELECT * FROM $tbl");
+        $stm->execute(array());
+        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     //Get Table Single data
     function getSingleCount($tbl,$id){
         global $connection;
         $stm = $connection->prepare("SELECT * FROM $tbl WHERE user_id=? AND id=?");
         $stm->execute(array($_SESSION['user']['id'],$id));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    //Get Table Single data
+    function getUserView($tbl,$id){
+        global $connection;
+        $stm = $connection->prepare("SELECT * FROM $tbl WHERE id=?");
+        $stm->execute(array($id));
         $result=$stm->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -55,6 +80,15 @@
         $result=$stm->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+
+        //Get Admin Profile DATA
+    function getAdminProfile($id){
+        global $connection;
+        $stm=$connection->prepare("SELECT * FROM admins WHERE id=?");
+        $stm->execute(array($id));
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
         //Get Product category DATA
     function getProductdata($col,$id){
         global $connection;
@@ -71,6 +105,13 @@
         $stm->execute(array($id));
         $result=$stm->fetch(PDO::FETCH_ASSOC);
         return $result[$col];
+    }
+    function getTableProduct(){
+        global $connection;
+        $stm=$connection->prepare("SELECT Id FROM products");
+        $stm->execute();
+        $result=$stm->rowCount();
+        return $result;
     }
 
 
@@ -94,25 +135,28 @@
         return $result[$col];
 
     }
+
+        //Get Group name
+        function getGroupNameByID($col,$id,$pid){
+            global $connection;
+            $stm=$connection->prepare("SELECT $col FROM groups WHERE id=? AND product_id=?");
+            $stm->execute(array($id,$pid));
+            $result = $stm->fetch(PDO::FETCH_ASSOC);
+            return $result[$col];
+        }
+
+
+   // get dashborad value
+   function getTotalValue($tbl,$col){
+         
+    $total_sales = 0;
+    $sales = getTableCount($tbl);
+    foreach($sales as $sale){
+        $total_sales = $total_sales + $sale[$col];
+    }
+    return $total_sales;
+   }
      
-    // $cate_data = getSingleCount('menufactures',$id);
-
    
-    // function getPurchase($col,$user_id){
-    //     global $connection;
-    //     $stm=$connection->prepare("SELECT * FROM purchases WHERE user_id=?");
-    //     $stm->execute(array($user_id));
-    //     $result=$stm->fetch(PDO::FETCH_ASSOC);
-    //     return $result[$col];
-    // }
-
-    // function getSingleCount1($tbl,$id){
-    //     global $connection;
-    //     $stm = $connection->prepare("SELECT * FROM $tbl WHERE user_id=? AND id=?");
-    //     $stm->execute(array($_SESSION['user']['id'],$id));
-    //     $result=$stm->fetch(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
-
 
 ?>

@@ -5,6 +5,11 @@
         header('location:login.php');
     }
     $profile = getProfile($_SESSION['user']['id']);
+
+    if($profile['status'] == "Blocked"){
+        header('location:../page-error-403.html');
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -35,19 +40,8 @@
 
 <body>
 
-    <!--*******************
-        Preloader start
-    ********************-->
-    <!-- <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div> -->
-    <!--*******************
-        Preloader end
-    ********************-->
+
+
 
     
     <!--**********************************

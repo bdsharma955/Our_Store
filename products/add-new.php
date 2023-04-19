@@ -47,6 +47,11 @@ if(isset($_POST['add_new_form'])){
     }
 
 }
+function product_value($bip){
+    if(isset($_POST[$bip])){
+        echo $_POST[$bip];
+    }
+}
 
 ?>
 
@@ -74,7 +79,7 @@ if(isset($_POST['add_new_form'])){
                             <form method="POST" action="" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="product_name">Product Name</label>
-                                    <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Product Name">
+                                    <input type="text" name="product_name" value="<?php product_value('product_name'); ?>"  id="product_name" class="form-control" placeholder="Product Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="product_category">Select Category</label>
@@ -89,7 +94,7 @@ if(isset($_POST['add_new_form'])){
                                 </div>
                                 <div class="form-group">
                                     <label for="discription">Discription</label>
-                                    <textarea name="discription" id="discription"  class="form-control summernote"></textarea>
+                                    <textarea name="discription" id="discription" value="<?php product_value('discription'); ?>"  class="form-control summernote"><?php echo product_value('discription'); ?>"</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="photo">Photo</label>

@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="../plugins/summernote/dist/summernote.css" rel="stylesheet">
+    <link href="../plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/custom.css" rel="stylesheet">
@@ -201,8 +202,8 @@
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Reports</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="admin/sales-reports.php">Sales Reports</a></li>
-                            <li><a href="admin/purchase-reports.php">Purchase Reports</a></li>
+                            <li><a href="sales-reports.php">Sales Reports</a></li>
+                            <li><a href="purchase-reports.php">Purchase Reports</a></li>
                         </ul>
                     </li>
                     

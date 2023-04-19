@@ -7,6 +7,8 @@ $productDetails = $connection->prepare("SELECT * FROM products WHERE id=?");
 $productDetails->execute(array($id));
 $result = $productDetails->fetch(PDO::FETCH_ASSOC);
 
+
+
 ?>
     <!-- row -->
 
@@ -20,10 +22,9 @@ $result = $productDetails->fetch(PDO::FETCH_ASSOC);
                             <table class="table header-border">
                                 <tbody>
                                     <tr>
-                                        <td>User Name</td>
+                                        <td>User ID</td>
                                         <td><?php 
-                                        $products = getAdminData('products');
-
+                                        echo $result['user_id'];
                                          ?></td>
                                     </tr>
                                     <tr>

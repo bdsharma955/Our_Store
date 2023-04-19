@@ -18,7 +18,7 @@ require_once('header.php');
                         </div>    
                         <?php endif; ?>
                         <div class="table-responsive">
-                            <table class="table header-border">
+                            <table class="table header-border" id="UserTable">
                                 <thead>
                                     <tr>
                                         <th>#</th>

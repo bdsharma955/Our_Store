@@ -54,7 +54,11 @@ if(isset($_POST['add_new_form'])){
     }
 
 }
-
+function purchase_value($bip){
+    if(isset($_POST[$bip])){
+        echo $_POST[$bip];
+    }
+}
 ?>
 
     
@@ -103,24 +107,24 @@ if(isset($_POST['add_new_form'])){
                                 </div>
                                 <div class="form-group">
                                     <label for="group_name">Group Name</label>
-                                    <input type="text" name="group_name" id="group_name" class="form-control" placeholder="Group Name">
+                                    <input type="text" name="group_name" value="<?php purchase_value('group_name'); ?>" id="group_name" class="form-control" placeholder="Group Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                    <input type="text" name="price" value="<?php purchase_value('price'); ?>" id="price" class="form-control" placeholder="Price">
                                 </div>
                                 <div class="form-group">
                                     <label for="menu_price">Menufacture Price</label>
-                                    <input type="text" name="menu_price" id="menu_price" class="form-control" placeholder="Menufacture Price">
+                                    <input type="text" name="menu_price" value="<?php purchase_value('menu_price'); ?>" id="menu_price" class="form-control" placeholder="Menufacture Price">
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
-                                    <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Quantity">
+                                    <input type="text" name="quantity" value="<?php purchase_value('quantity'); ?>" id="quantity" class="form-control" placeholder="Quantity">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="expire">Expire Date</label>
-                                    <input type="date" name="expire" id="expire" class="form-control" placeholder="Expire Date">
+                                    <input type="date" name="expire" id="expire" value="<?php purchase_value('expire'); ?>" class="form-control" placeholder="Expire Date">
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" name="add_new_form" class="btn btn-success" value="Create">

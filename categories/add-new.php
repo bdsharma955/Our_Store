@@ -33,6 +33,11 @@ if(isset($_POST['add_new_form'])){
     }
 
 }
+function category_value($bip){
+    if(isset($_POST[$bip])){
+        echo $_POST[$bip];
+    }
+}
 
 ?>
 
@@ -60,11 +65,11 @@ if(isset($_POST['add_new_form'])){
                             <form method="POST" action="">
                                 <div class="form-group">
                                     <label for="cate_name">Category Name</label>
-                                    <input type="text" name="cate_name" id="cate_name" class="form-control" placeholder="Category Name">
+                                    <input type="text" name="cate_name" value="<?php category_value('cate_name'); ?>" id="cate_name" class="form-control" placeholder="Category Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="cate_slug">Category Slug</label>
-                                    <input type="text" name="cate_slug" id="cate_slug" class="form-control" placeholder="Category Slug">
+                                    <input type="text" name="cate_slug" value="<?php category_value('cate_slug'); ?>" id="cate_slug" class="form-control" placeholder="Category Slug">
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" name="add_new_form" class="btn btn-success" value="Create">

@@ -62,18 +62,18 @@ $id =  $_SESSION['user']['id'];
                                                     </select>
                                                 </div>
                                             </td>
-                                            <td><input type="text" placeholder="Group Name" class="form-control" name="" id=""></td>
-                                            <td><input type="date" placeholder="Expire" class="form-control" name="" id=""></td>
-                                            <td><input type="number" placeholder="Quantity" class="form-control" name="" id=""></td>
-                                            <td><input type="number" placeholder="Item Price" class="form-control" name="" id=""></td>
+                                            <td><input type="text" placeholder="Group Name" class="form-control" name="group_name" id="group_name"></td>
+                                            <td><input type="date" placeholder="Expire" class="form-control" name="expire" id="expire"></td>
+                                            <td><input type="number" placeholder="Quantity" class="form-control" name="quantity" id="quantity"></td>
+                                            <td><input type="number" placeholder="Item Price" class="form-control" name="price" id="price"></td>
                                             <td><input type="number" placeholder="Menufacture Price" class="form-control" name="" id=""></td>
-                                            <td><input type="number" placeholder="Total Price" class="form-control" name="" id=""></td>
+                                            <td><input type="number" placeholder="Total Price" class="form-control" name="total_price" id="total_price"></td>
                                             <td>
                                                 <a onclick="return confirm('Are You Sure?');" href="" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Remove</a>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="10" class="text-right add"><button type="submit" class="btn btn-primary">Add New</button></td>
+                                            <td colspan="10" class="text-right add"><button type="submit" name="add_new_btn" class="btn btn-primary">Add New</button></td>
                                         </tr>
                                     </tbody>
                                 </table>

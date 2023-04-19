@@ -37,14 +37,15 @@ require_once('../includes/header.php');
                             <div class="col">
                                 <div class="card card-profile text-center">
                                     <span class="mb-1 text-primary"><i class="icon-people"></i></span>
-                                    <h3 class="mb-0">263</h3>
+                                    <h3 class="mb-0"><?php echo getTotalValue('purchases','total_price'); ?></h3>
                                     <p class="text-muted px-4">Total Purchase</p>
                                 </div>
                             </div>
                             <div class="col">
+                                
                                 <div class="card card-profile text-center">
                                     <span class="mb-1 text-warning"><i class="icon-user-follow"></i></span>
-                                    <h3 class="mb-0">263</h3>
+                                    <h3 class="mb-0"><?php echo getTotalValue('sales','sub_total'); ?></h3>
                                     <p class="text-muted">Total Sale</p>
                                 </div>
                             </div>

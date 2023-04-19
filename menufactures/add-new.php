@@ -39,6 +39,13 @@ if(isset($_POST['add_new_form'])){
 
 }
 
+function menu_value($bip){
+    if(isset($_POST[$bip])){
+        echo $_POST[$bip];
+    }
+}
+
+
 ?>
 
     
@@ -65,15 +72,15 @@ if(isset($_POST['add_new_form'])){
                             <form method="POST" action="">
                                 <div class="form-group">
                                     <label for="menu_name">Name</label>
-                                    <input type="text" name="menu_name" id="menu_name" class="form-control" placeholder="Menufacture Name">
+                                    <input type="text" name="menu_name" value="<?php menu_value('menu_name'); ?>" id="menu_name" class="form-control" placeholder="Menufacture Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
-                                    <input type="text" name="address" id="address" class="form-control" placeholder="Address">
+                                    <input type="text" name="address" value="<?php menu_value('address'); ?>" id="address" class="form-control" placeholder="Address">
                                 </div>
                                 <div class="form-group">
                                     <label for="mobile_number">Mobile Number</label>
-                                    <input type="text" name="mobile_number" id="mobile_number" class="form-control" placeholder="Address">
+                                    <input type="text" name="mobile_number" value="<?php menu_value('mobile_number'); ?>" id="mobile_number" class="form-control" placeholder="Address">
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" name="add_new_form" class="btn btn-success" value="Create">

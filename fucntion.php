@@ -44,7 +44,7 @@
         $result=$stm->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
+    
     //Get Table Single data
     function getSingleCount($tbl,$id){
         global $connection;
@@ -148,7 +148,7 @@
 
    // get dashborad value
    function getTotalValue($tbl,$col){
-         
+
     $total_sales = 0;
     $sales = getTableCount($tbl);
     foreach($sales as $sale){
@@ -157,6 +157,8 @@
     return $total_sales;
    }
      
+
+  
    
 
 ?>

@@ -120,6 +120,7 @@ if(isset($_SESSION['user'])){
                                     <button type="submit" name="login_form" class="btn login-form__btn submit w-100">Login</button>
                                 </form>
                                 <p class="mt-5 login-form__footer">Dont have account? <a href="registration.php" class="text-primary">registration</a> now</p>
+                                <p class="login-form__footer"><a href="forget-password.php" class="text-primary">forget-password</a></p>
                             </div>
                         </div>
                     </div>
